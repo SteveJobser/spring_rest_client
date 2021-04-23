@@ -26,14 +26,23 @@ public class Communication {
     }
 
     public Employee getEmployee(int id) {
+        Employee employee = restTemplate.getForObject(URL + "/" + id, Employee.class);
         return null;
     }
 
     public void saveEmployee(Employee employee) {
-
+        int id = employee.getId();
+        if(id == 0) {
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(URL, employee, String.class);
+            System.out.println("Added");
+            System.out.println(responseEntity.getBody());
+        } else {
+            restTemplate.put(URL, employee);
+            System.out.println("Updated");
+        }
     }
 
     public void deleteEmployee(int id) {
-
+        restTemplate.delete(URL + "/" + id);
     }
 }
